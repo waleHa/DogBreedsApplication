@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_16dp"
-    tools:context=".ui.DogBreedFragment">
+    tools:context=".ui.DogBreed.DogBreedFragment">
 
     <Spinner
         android:id="@+id/spinner_dog_breeds"
@@ -25,16 +25,17 @@
         android:id="@+id/image_view_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_arrow_down"
-        android:paddingVertical="@dimen/padding_16dp"
         android:background="@drawable/shape_blue_outline"
+        android:paddingVertical="@dimen/padding_16dp"
+        android:src="@drawable/icon_arrow_down"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_dog_breeds"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/spinner_dog_breeds"
         app:layout_constraintTop_toTopOf="@+id/spinner_dog_breeds" />
+
     <ImageView
         android:id="@+id/image_view_random"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

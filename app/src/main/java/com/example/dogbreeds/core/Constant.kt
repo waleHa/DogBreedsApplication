@@ -102,6 +102,7 @@ object Constant {
             "whippet",
             "wolfhound"
         )
+
 const val API_BASE_URL = "https://dog.ceo/"
     const val DOG_BREEDS_ENDPOINT = "api/breed/{breed}/images/random"
 }

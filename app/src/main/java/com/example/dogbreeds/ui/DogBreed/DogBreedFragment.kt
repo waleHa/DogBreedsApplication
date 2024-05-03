@@ -1,6 +1,7 @@
-package com.example.dogbreeds.ui
+package com.example.dogbreeds.ui.DogBreed
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,12 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.dogbreeds.R
 import com.example.dogbreeds.core.Constant
 import com.example.dogbreeds.databinding.FragmentDogBreedBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 
 class DogBreedFragment : Fragment() {
     private lateinit var binding: FragmentDogBreedBinding
@@ -31,12 +33,19 @@ class DogBreedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSpinner()
-        viewModel.breed
-        Glide.with(view.context)
-            .load(viewModel.breed.value)
-            .into(binding.imageViewRandom)
-
+        observe()
     }
+
+    private fun observe() {
+        viewModel.breed.observe(viewLifecycleOwner) {
+            Log.i("TAG: DogBreedFragment", it.message.toString())
+            Glide.with(view?.context!!)
+                .load(it?.message)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(binding.imageViewRandom)
+        }
+    }
+
 
     private fun setupSpinner() {
         // Assuming Constant.breedsNameList is correctly initialized and contains list of breeds
@@ -62,8 +71,8 @@ class DogBreedFragment : Fragment() {
                     id: Long
                 ) {
                     val selectedItem = parent.getItemAtPosition(position).toString()
-                    Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT)
-                        .show()
+//                    Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT)
+//                        .show()
 
                     viewModel.loadProducts(selectedItem.lowercase())
                 }

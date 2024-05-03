@@ -1,40 +1,36 @@
-package com.example.dogbreeds.ui
+package com.example.dogbreeds.ui.DogBreed
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dogbreeds.domain.BreedImageModelResponse
-import com.example.dogbreeds.network.RetrofitInstance
+import com.example.dogbreeds.domain.model.BreedImageModelResponse
+import com.example.dogbreeds.data.network.RetrofitInstance
+import com.example.dogbreeds.domain.repository.BreedRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-//@HiltViewModel
-//class DogBreedViewModel @Inject constructor(private val breedRepository: BreedRepository): ViewModel() {
-class DogBreedViewModel : ViewModel() {
+@HiltViewModel
+class DogBreedViewModel @Inject constructor(private val breedRepository: BreedRepository): ViewModel() {
+//class DogBreedViewModel : ViewModel() {
     private val _breed: MutableLiveData<BreedImageModelResponse> = MutableLiveData()
 
     // Exposed as LiveData for observing changes from UI
     val breed: LiveData<BreedImageModelResponse> = _breed
 
-    init {
 
+    fun loadProducts(breedName: String) {
         viewModelScope.launch {
             try {
-                val response =
-                    _breed.postValue(RetrofitInstance.apiClient.getRandomImageForBreed("affenpinscher"))
+                val products = breedRepository.getRandomImageForBreed(breedName)
+                _breed.postValue(products)
                 // Process response
             } catch (e: Exception) {
                 // Handle error
                 Log.e("TAG: DogBreedViewModel", e.localizedMessage ?: "Error with default message")
             }
-        }
-    }
-
-    fun loadProducts(breedName: String) {
-        viewModelScope.launch {
-            val products = RetrofitInstance.apiClient.getRandomImageForBreed(breedName)
-            _breed.postValue(products)
         }
     }
 }
